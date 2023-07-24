@@ -220,8 +220,9 @@ if __name__ == "__main__":
                     file_path = os.path.join(dirpath, filename)
                     game_path = uma.get_bundle_path(filename)
                     if os.path.isfile(game_path):
-                        shutil.move(file_path, game_path)
-                        print(f"{game_path} 安装成功")
+                        if os.path.exists(game_path):
+                            shutil.move(file_path, game_path)
+                            print(f"{game_path} 安装成功")
 
         if do_type == "9":
             uma.file_restore()
