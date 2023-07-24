@@ -218,8 +218,10 @@ if __name__ == "__main__":
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.MOD_PATH):
                 for filename in filenames:
                     file_path = os.path.join(dirpath, filename)
-                    if os.path.isfile(uma.get_bundle_path(filename)):
-                        shutil.move(file_path, uma.get_bundle_path(filename))
+                    game_path = uma.get_bundle_path(filename)
+                    if os.path.isfile(game_path):
+                        shutil.move(file_path, game_path)
+                        print(f"{game_path} 安装成功")
 
         if do_type == "9":
             uma.file_restore()
