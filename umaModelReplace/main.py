@@ -38,9 +38,6 @@ class UmaReplace:
         if not os.path.isdir(MOD_PATH):
             os.makedirs(MOD_PATH)
 
-
-
-
     def get_bundle_path(self, bundle_hash: str):
         return f"{self.base_path}/dat/{bundle_hash[:2]}/{bundle_hash}"
 
@@ -195,7 +192,7 @@ class UmaReplace:
         if result is None:
             print(UmaFileNotFoundError(f"{path} not found!"))
             result = ['not found!']
-            return result		
+            return result
         cursor.close()
         return result
 
@@ -593,8 +590,6 @@ class UmaReplace:
                 print(f"Exception occurred when editing file: {bn}\n{e}")
 
         print("done.")
-
-
 
 # a = UmaReplace()
 # a.file_backup("6NX7AYDRVFFGWKVGA4TDKUX2N63TRWRT")

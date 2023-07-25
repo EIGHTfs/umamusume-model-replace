@@ -7,6 +7,7 @@ from tkinter import filedialog
 uma = umaModelReplace.UmaReplace()
 profile_path = os.environ.get("UserProfile")
 
+
 def replace_char_body_texture(char_id: str):
     is_not_exist, msg = uma.save_char_body_texture(char_id, False)
     if not is_not_exist:
@@ -209,8 +210,8 @@ if __name__ == "__main__":
                 do_rename = input("是否重命名，输入 \"Y\"确认：")
                 for filename in filenames:
                     file_path = os.path.join(dirpath, filename)
-#                    if os.path.isfile(uma.get_bundle_path(filename)):
-                    
+                    #if os.path.isfile(uma.get_bundle_path(filename)):
+
                     if do_rename.strip() in ["Y", "y"]:
                         if os.path.isfile(file_path):
                             base = UnityPy.load(file_path)
