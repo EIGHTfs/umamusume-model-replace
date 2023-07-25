@@ -219,9 +219,10 @@ if __name__ == "__main__":
                             for key, value in base.container.items():
                                 name = get_bundle_name(key)
                                 print(name)
-                                print(uma.getName(name)[0])
-                                if os.path.isfile(uma.get_bundle_path(uma.getName(name)[0])):
-                                    shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{uma.getName(name)[0]}")
+                                game_file_name = uma.getName(name)[0]
+                                print(f"{filename} → {game_file_name}")
+                                if os.path.isfile(uma.get_bundle_path(game_file_name)):
+                                    shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{game_file_name}")
                     else:
                         if os.path.isfile(uma.get_bundle_path(filename)):
                             shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{filename}")
@@ -229,11 +230,11 @@ if __name__ == "__main__":
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.MOD_PATH):
                 for filename in filenames:
                     file_path = os.path.join(dirpath, filename)
-                    game_path = uma.get_bundle_path(filename)
-                    if os.path.isfile(game_path):
-                        if os.path.exists(game_path):
-                            shutil.move(file_path, game_path)
-                            print(f"{game_path} 安装成功")
+                    game_file_path = uma.get_bundle_path(filename)
+                    if os.path.isfile(game_file_path):
+                        if os.path.exists(game_file_path):
+                            shutil.move(file_path, game_file_path)
+                            print(f"{game_file_path} 安装成功")
 
         if do_type == "9":
             uma.file_restore()
