@@ -5,7 +5,7 @@ import UnityPy
 from tkinter import filedialog
 
 uma = umaModelReplace.UmaReplace()
-
+profile_path = os.environ.get("UserProfile")
 
 def replace_char_body_texture(char_id: str):
     is_not_exist, msg = uma.save_char_body_texture(char_id, False)
@@ -208,12 +208,16 @@ if __name__ == "__main__":
                 for filename in filenames:
                     file_path = os.path.join(dirpath, filename)
                     if os.path.isfile(uma.get_bundle_path(filename)):
+#                    if os.path.isfile(file_path):
                         base = UnityPy.load(file_path)
                         name: str
                         for key, value in base.container.items():
                             name = get_bundle_name(key)
                             print(name)
-                            shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{filename}")
+                            print(uma.getName(name)[0])
+                            if os.path.isfile(uma.get_bundle_path(uma.getName(name)[0])):
+                                shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{uma.getName(name)[0]}")
+
             print("开始安装")
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.MOD_PATH):
                 for filename in filenames:

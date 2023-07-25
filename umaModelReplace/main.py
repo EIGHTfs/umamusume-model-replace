@@ -8,6 +8,7 @@ from . import assets_path
 import tkinter as tk
 from tkinter import filedialog
 
+profile_path = os.environ.get("UserProfile")
 spath = os.path.split(__file__)[0]
 BACKUP_PATH = f"{spath}/backup"
 EDITED_PATH = f"{spath}/edited"
@@ -22,7 +23,6 @@ class UmaFileNotFoundError(FileNotFoundError):
 class UmaReplace:
     def __init__(self):
         self.init_folders()
-        profile_path = os.environ.get("UserProfile")
         #        self.base_path = f"{profile_path}/AppData/LocalLow/Cygames/umamusume"
         self.base_path = filedialog.askdirectory(title='选择同时包含dat文件夹,meta文件的文件夹',
                                                  initialdir=f"{profile_path}/AppData/LocalLow/Cygames/umamusume")  # 选择同时包含dat文件夹,meta文件的文件夹
@@ -37,6 +37,9 @@ class UmaReplace:
             os.makedirs(EDITED_PATH)
         if not os.path.isdir(MOD_PATH):
             os.makedirs(MOD_PATH)
+
+
+
 
     def get_bundle_path(self, bundle_hash: str):
         return f"{self.base_path}/dat/{bundle_hash[:2]}/{bundle_hash}"
@@ -184,6 +187,17 @@ class UmaReplace:
             return query
         cursor.close()
         return query[0]
+
+    def getName(self, path: str):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT h FROM a WHERE n like '%" + path + "'")
+        result = cursor.fetchone()
+        if result is None:
+            print(UmaFileNotFoundError(f"{path} not found!"))
+            result = ['not found!']
+            return result		
+        cursor.close()
+        return result
 
     def save_char_body_texture(self, char_id: str, force_replace=False):
         mtl_bdy_path = assets_path.get_body_mtl_path(char_id)
@@ -579,6 +593,8 @@ class UmaReplace:
                 print(f"Exception occurred when editing file: {bn}\n{e}")
 
         print("done.")
+
+
 
 # a = UmaReplace()
 # a.file_backup("6NX7AYDRVFFGWKVGA4TDKUX2N63TRWRT")
