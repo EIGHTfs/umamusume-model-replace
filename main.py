@@ -205,19 +205,25 @@ if __name__ == "__main__":
 
         if do_type == "8":
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.EDITED_PATH):
+                print("如果游戏文件名有更新可重命名文件")
+                do_rename = input("是否重命名，输入 \"Y\"确认：")
                 for filename in filenames:
                     file_path = os.path.join(dirpath, filename)
-                    if os.path.isfile(uma.get_bundle_path(filename)):
-#                    if os.path.isfile(file_path):
-                        base = UnityPy.load(file_path)
-                        name: str
-                        for key, value in base.container.items():
-                            name = get_bundle_name(key)
-                            print(name)
-                            print(uma.getName(name)[0])
-                            if os.path.isfile(uma.get_bundle_path(uma.getName(name)[0])):
-                                shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{uma.getName(name)[0]}")
-
+#                    if os.path.isfile(uma.get_bundle_path(filename)):
+                    
+                    if do_rename.strip() in ["Y", "y"]:
+                        if os.path.isfile(file_path):
+                            base = UnityPy.load(file_path)
+                            name: str
+                            for key, value in base.container.items():
+                                name = get_bundle_name(key)
+                                print(name)
+                                print(uma.getName(name)[0])
+                                if os.path.isfile(uma.get_bundle_path(uma.getName(name)[0])):
+                                    shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{uma.getName(name)[0]}")
+                    else:
+                        if os.path.isfile(uma.get_bundle_path(filename)):
+                            shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{filename}")
             print("开始安装")
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.MOD_PATH):
                 for filename in filenames:
