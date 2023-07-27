@@ -205,13 +205,12 @@ if __name__ == "__main__":
             #       "Repo: https://github.com/MinamiChiwa/Trainers-Legend-G")
 
         if do_type == "8":
+            print("如果游戏文件名有更新可重命名文件")
+            do_rename = input("是否重命名，输入 \"Y\"确认：")       
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.EDITED_PATH):
-                print("如果游戏文件名有更新可重命名文件")
-                do_rename = input("是否重命名，输入 \"Y\"确认：")
                 for filename in filenames:
                     file_path = os.path.join(dirpath, filename)
-                    #if os.path.isfile(uma.get_bundle_path(filename)):
-
+                    game_file_name = filename
                     if do_rename.strip() in ["Y", "y"]:
                         if os.path.isfile(file_path):
                             base = UnityPy.load(file_path)
@@ -221,11 +220,9 @@ if __name__ == "__main__":
                                 print(name)
                                 game_file_name = uma.getName(name)[0]
                                 print(f"{filename} → {game_file_name}")
-                                if os.path.isfile(uma.get_bundle_path(game_file_name)):
-                                    shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{game_file_name}")
-                    else:
-                        if os.path.isfile(uma.get_bundle_path(filename)):
-                            shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{filename}")
+
+                    if os.path.isfile(uma.get_bundle_path(game_file_name)):
+                        shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{game_file_name}")
             print("开始安装")
             for dirpath, dirnames, filenames in os.walk(umaModelReplace.MOD_PATH):
                 for filename in filenames:
