@@ -90,14 +90,7 @@ def replace_support_thumb_texture(card_id: str, overwrite: bool):
         uma.replace_support_thumb_texture(card_id)
 
 
-def get_bundle_name(fullPath):
-    begin = fullPath.rfind("/") + 1
-    end = fullPath.rfind(".")
-    if end != -1:
-        result = fullPath[begin:end]
-    else:
-        result = fullPath[begin:]
-    return result
+
 
 
 if __name__ == "__main__":
@@ -205,33 +198,7 @@ if __name__ == "__main__":
             #       "Repo: https://github.com/MinamiChiwa/Trainers-Legend-G")
 
         if do_type == "8":
-            print("如果游戏文件名有更新可重命名文件")
-            do_rename = input("是否重命名，输入 \"Y\"确认：")       
-            for dirpath, dirnames, filenames in os.walk(umaModelReplace.EDITED_PATH):
-                for filename in filenames:
-                    file_path = os.path.join(dirpath, filename)
-                    game_file_name = filename
-                    if do_rename.strip() in ["Y", "y"]:
-                        if os.path.isfile(file_path):
-                            base = UnityPy.load(file_path)
-                            name: str
-                            for key, value in base.container.items():
-                                name = get_bundle_name(key)
-                                print(name)
-                                game_file_name = uma.getName(name)[0]
-                                print(f"{filename} → {game_file_name}")
-
-                    if os.path.isfile(uma.get_bundle_path(game_file_name)):
-                        shutil.copyfile(file_path, f"{umaModelReplace.MOD_PATH}/{game_file_name}")
-            print("开始安装")
-            for dirpath, dirnames, filenames in os.walk(umaModelReplace.MOD_PATH):
-                for filename in filenames:
-                    file_path = os.path.join(dirpath, filename)
-                    game_file_path = uma.get_bundle_path(filename)
-                    if os.path.isfile(game_file_path):
-                        if os.path.exists(game_file_path):
-                            shutil.move(file_path, game_file_path)
-                            print(f"{game_file_path} 安装成功")
+            uma.mod_install()
 
         if do_type == "9":
             uma.file_restore()

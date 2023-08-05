@@ -591,6 +591,40 @@ class UmaReplace:
 
         print("done.")
 
+    
+    def mod_install(self):
+        print("如果游戏文件名有更新可重命名文件")
+        do_rename = input("是否重命名，输入 \"Y\"确认：")       
+        for dirpath, dirnames, filenames in os.walk(EDITED_PATH):
+            for filename in filenames:
+                file_path = os.path.join(dirpath, filename)
+                game_file_name = filename
+                if do_rename.strip() in ["Y", "y"]:
+                    if os.path.isfile(file_path):
+                        base = UnityPy.load(file_path)
+                        name: str
+                        for key, value in base.container.items():
+                            if key.rfind(".") != -1:
+                                name = key[key.rfind("/") + 1:key.rfind(".")]
+                            else:
+                                name = key[key.rfind("/") + 1:]
+                            
+                            print(name)
+                            game_file_name = self.getName(name)[0]
+                            print(f"{filename} → {game_file_name}")
+
+                if os.path.isfile(self.get_bundle_path(game_file_name)):
+                    shutil.copyfile(file_path, f"{MOD_PATH}/{game_file_name}")
+        print("开始安装")
+        for dirpath, dirnames, filenames in os.walk(MOD_PATH):
+            for filename in filenames:
+                file_path = os.path.join(dirpath, filename)
+                game_file_path = self.get_bundle_path(filename)
+                if os.path.isfile(game_file_path):
+                    if os.path.exists(game_file_path):
+                        self.file_backup(filename)
+                        shutil.move(file_path, game_file_path)
+                        print(f"{game_file_path} 安装成功")    
 # a = UmaReplace()
 # a.file_backup("6NX7AYDRVFFGWKVGA4TDKUX2N63TRWRT")
 # a.replace_file_path("5IU2HDJHXDO3ISZSXXOQWXF7VEOG5OCX", "1046", "")
