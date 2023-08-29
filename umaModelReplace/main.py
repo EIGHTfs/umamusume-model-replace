@@ -27,7 +27,8 @@ class UmaReplace:
         self.base_path = filedialog.askdirectory(title='选择同时包含dat文件夹,meta文件的文件夹',
                                                  initialdir=f"{profile_path}/AppData/LocalLow/Cygames/umamusume")  # 选择同时包含dat文件夹,meta文件的文件夹
         self.conn = sqlite3.connect(f"{self.base_path}/meta")
-        self.master_conn = sqlite3.connect(f"{self.base_path}/master/master.mdb")
+        if os.path.exists(f"{self.base_path}/master/master.mdb"):
+            self.master_conn = sqlite3.connect(f"{self.base_path}/master/master.mdb")
 
     @staticmethod
     def init_folders():
